@@ -1,0 +1,256 @@
+<!doctype html>
+<html style="height: 100%;">
+
+<head>
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <style>
+        @font-face {
+            font-family: ourFont;
+            src: url("ABeeZee-Regular.ttf");
+        }
+
+        *:focus {
+            outline: none;
+        }
+        
+        table, th, td{
+            border: 3px solid white;
+            color: white;
+            text-align: center;
+        }
+    </style>
+    <script src="processing.min.js"></script>
+</head>
+
+<body style="background: #000000; font-family: ourFont;max-height: 100%; margin: 0;">
+
+    <div id="body" style=" height: 100%; width: 100%; display: none">
+        <center id="heart">
+            <div style="width: 100%; background: #ffffff; color: black; position: fixed; height: 10%; top:0; font-size: 19px; box-shadow: 0 1px 5px grey;">
+                <p id="counter" style="width: 50%; position: absolute;">0 appreciations</p> <button id="StatA" style="position: absolute; right: 20%; border: 0; font-size: 18px; height: 50%; top:25%; font-family: ourFont; border-radius: 2px; background: #000000; color: white; box-shadow: 0 1px 6px gray;" >Stats</button>
+            </div>
+
+            <p style="margin-top: 70%; font-size: 30px; margin-bottom: 0px; background: #ffffff; color: black; border-radius: 3px;padding: 6px; width: 80%; ">Appreciate</p><p id="00" class="tt" style="display: none;"></p>
+        </center>
+
+        <button id="addb" style="width: 50px; border: 0; height: 50px; position: fixed; bottom: 3%; right: 3%; color: black; border-radius: 100px; font-size: 30px;background: #ffffff; box-shadow: 0px 1px 6px grey;">+</button>
+        <button id="fix" style="width: 50px; border: 0; height: 50px; position: fixed; bottom: 13%; right: 3%; color: black; border-radius: 100px; font-size: 30px;background: #ffffff; box-shadow: 0px 1px 6px grey;">f</button>
+    </div>
+    <center>
+        <div id="add" style="position: fixed; width: 90%; right: 5%; background: #000000; top: 30%; border-radius: 15px; padding-top: 20px; display: none; box-shadow: 0px 1px 6px white;">
+            <input type="text" placeholder="write apperiation here" style="border:0; height: 25px;  width:80%; padding:7px; margin:5px; border-radius: 5px;">
+            <input id="Day" type="number" placeholder="Day" min="1" steps="0" style="width: 36%;height: 25px; border:0; padding:7px; margin:5px; border-radius: 5px"> <input id="Month" type="number" placeholder="Month" min="1" steps="0" style="width: 36%;height: 25px; border:0; padding:7px; margin:5px; border-radius: 5px"><br>
+            <select id="TypeOf" style="border: 0;height: 28px;width: 84%;margin: 7px;margin-bottom: 0;font-size: 15px;border-radius: 3px;">
+                <option value="feeling">Feeling</option>
+                <option value="situation">Situation</option>
+                <option value="person">Person</option>
+                <option value="event">Event</option>
+            </select>
+            <br>
+            <button id="cancel" style="width: 35%;font-size: 17px;border-radius: 5px;border: 0;margin: 4.5%;background: #ec2222;color: white; padding: 3px; height: 35px">cancel</button> <button id="ok" style="width: 35%;font-size: 17px;border-radius: 5px;border: 0;margin: 4.5%;background: #079907;color: white;padding: 3px; height: 35px;">Add</button>
+        </div>
+        <div id="fixSpace" style="position: fixed; width: 90%; right: 5%; background: #000000; top: 30%; border-radius: 15px; padding-top: 20px; display: none; box-shadow: 0px 1px 6px white;">
+            <input id="fixed" type="text" placeholder="Write Fix here" style="border:0; height: 25px;  width:80%; padding:7px; margin:5px; border-radius: 5px;">
+            <input id="EYED" type="number" placeholder="ID" min="1" steps="0" style="width: 36%;height: 25px; border:0; padding:7px; margin:5px; border-radius: 5px">
+            <br>
+            <button id="cancelF" style="width: 35%;font-size: 17px;border-radius: 5px;border: 0;margin: 4.5%;background: #ec2222;color: white; padding: 3px; height: 35px">cancel</button> <button id="okF" style="width: 35%;font-size: 17px;border-radius: 5px;border: 0;margin: 4.5%;background: #079907;color: white;padding: 3px; height: 35px;">Fix</button>
+        </div>
+    </center>
+    <div id="st" style="display: none;">
+        <table style="width:100%">
+            <tr>
+                <th>Feeling</th>
+                <th>Person</th>
+                <th>Situation</th>
+                <th>Event</th>
+            </tr>
+            <tr>
+                <td id="ResFeeling"></td>
+                <td id="ResPeople"></td>
+                <td id="ResSituation"></td>
+                <td id="ResEvent"></td>
+            </tr>
+        </table>
+        <button id="back" style="width: 50px; border: 0; height: 50px; position: fixed; bottom: 3%; right: 3%; color: black; border-radius: 100px; font-size: 30px;background: #ffffff; box-shadow: 0px 1px 6px grey;"> > </button>
+       <center>
+        <script type="application/processing" >
+        size(270, 270);
+        background(256,256,256);
+        
+        var A1 = parseInt(State[State.length - 1]) || 0;
+        var A2 = parseInt(State[State.length - 2]) || 0;
+        var A3 = parseInt(State[State.length - 3]) || 0;
+        var A4 = parseInt(State[State.length - 4]) || 0;
+        
+        var richs = [A1, A2, A3, A4];
+
+        for (var i = 0; i < 4; i++){
+            strokeWeight(10);
+            line( i * 60 + 60, 200, i * 60 + 60, 200 - richs[i] * 30);
+            strokeWeight(2);
+            line(0,230, i * 60 + 100, 230);
+            fill(0, 0, 0);
+            text((i + 1), i * 60 +60, 260);
+            line(20, 250, 20, 0);
+            }
+
+            for(var u = 0; u < 6; u++){
+                text( (u), 10, 200 - u * 30);}
+        </script>
+        <canvas style="padding: 5%;"></canvas>
+           </center>
+    </div>
+</body>
+<script src="jquery-3.3.1.js"></script>
+<script>
+    var m = new Date()
+
+    $("#body").fadeIn();
+
+    var months = ["Jan", "Feb", "March", "April", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var addButtom = document.querySelector("#addb");
+    var cancel = document.querySelector("#cancel");
+    var okbutton = document.querySelector("#ok");
+    var fixButton = document.querySelector("#fix");
+    var cancelb = document.querySelector("#cancelF");
+    var okbuttonF = document.querySelector("#okF");    
+
+    var Fs = 0;
+    var Ss = 0;
+    var Ps = 0;
+    var Es = 0;
+    
+    var State = [];
+    var StateButton = document.querySelector("#StatA");
+    
+    fixButton.addEventListener("click", ()=>{document.querySelector("#fixSpace").style.display = "block";});
+   
+    cancelb.addEventListener("click", ()=>{document.querySelector("#fixSpace").style.display = "none";});
+    
+
+    okbuttonF.addEventListener("click", ()=>{
+        document.querySelectorAll("p.tt")[parseInt(document.querySelector("#EYED").value)].textContent = document.querySelector("#fixed").value;
+        localStorage.setItem("content", document.querySelector("#heart").innerHTML);
+        document.querySelector("#fixSpace").style.display = "none";
+        document.querySelectorAll("input")[3].value = "";
+        document.querySelectorAll("input")[4].value = "";        
+    });
+    
+    if (localStorage.getItem("feelings") == "NaN" || localStorage.getItem("feelings") == NaN || localStorage.getItem("feelings") == null) {} else {
+        Fs = parseInt(localStorage.getItem("feelings"));
+    }
+    
+    if (localStorage.getItem("situations") == "NaN" || localStorage.getItem("situations") == NaN || localStorage.getItem("situations") == null) {} else {
+        Ss = parseInt(localStorage.getItem("situations"));
+    }
+
+    if (localStorage.getItem("people") == "NaN" || localStorage.getItem("people") == NaN || localStorage.getItem("people") == null) {} else {
+        Ps = parseInt(localStorage.getItem("people"));
+    }
+
+    if (localStorage.getItem("events") == "NaN" || localStorage.getItem("events") == NaN || localStorage.getItem("events") == null) {} else {
+        Es = parseInt(localStorage.getItem("events"));
+    }
+    function Fade(){
+        $("#body").fadeOut();
+        
+        document.querySelector("#ResFeeling").textContent = Fs;
+        document.querySelector("#ResPeople").textContent = Ps;
+        document.querySelector("#ResSituation").textContent = Ss;
+        document.querySelector("#ResEvent").textContent = Es;
+        
+        $("#st").delay("500").fadeIn();
+    }
+    function FadeIn(){
+        $("#st").fadeOut();
+        $("#body").delay("500").fadeIn();
+    }
+    document.querySelector("#StatA").addEventListener("click", Fade);
+    
+    addButtom.addEventListener("click", () => {
+        document.querySelector("#add").style.display = "block"
+    });
+    cancel.addEventListener("click", () => {
+        document.querySelector("#add").style.display = "none"
+    });
+
+    ok.addEventListener("click", () => {
+        if (document.querySelector("#Day").value == "" && document.querySelector("#Month").value == "") {
+            document.querySelector("#heart").innerHTML += "<br><img src = 'line.png' style='margin:3px;'><br> <div style='background: white; padding: 3px; margin: 10px; width: 80%; border-radius: 3px; padding-bottom: 1px;'> <p class='tt' style='font-size: 25px; margin:7px;margin-left:20px; text-align: left;'>" + document.querySelector("input").value + "</p> <br> <p style='font-size: 17px ; margin-top:-10px;'>" + m.getDate() + " " + months[parseInt(m.getMonth())] + "</p> </div>";
+            if (parseInt(m.getDate) < 10) {
+                document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 1].id = "" + parseInt(m.getMonth() + 1) + "0" + m.getDate();
+            } else {
+                document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 1].id = "" + parseInt(m.getMonth() + 1) + m.getDate();
+            }
+
+        } else if (document.querySelector("#Day").value == "") {
+            document.querySelector("#heart").innerHTML += "<br><img src = 'line.png' style='margin:3px;'><br> <div style='background: white; padding: 3px; margin: 10px; width: 80%; border-radius: 3px; padding-bottom: 1px;'> <p class='tt' style='font-size: 25px; margin:7px;margin-left:20px; text-align: left;'>" + document.querySelector("input").value + "</p> <br> <p style='font-size: 17px ; margin-top:-10px;'>" + m.getDate() + " " + months[parseInt(document.querySelector("#Month").value) - 1] + "</p> </div>";
+
+            if (parseInt(m.getDate) < 10) {
+                document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 1].id = "" + document.querySelector("#Month").value + "0" + m.getDate();
+            } else {
+                document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 1].id = "" + document.querySelector("#Month").value + m.getDate();
+            }
+        } else if (document.querySelector("#Month").value == "") {
+            document.querySelector("#heart").innerHTML += "<br><img src = 'line.png' style='margin:3px;'><br> <div style='background: white; padding: 3px; margin: 10px; width: 80%; border-radius: 3px; padding-bottom: 1px;'> <p class='tt' style='font-size: 25px; margin:7px;margin-left:20px; text-align: left;'>" + document.querySelector("input").value + "</p> <br> <p style='font-size: 17px ; margin-top:-10px;'>" + document.querySelector("#Day").value + " " + months[parseInt(m.getMonth())] + "</p> </div>";
+
+            if (parseInt(document.querySelector("#Day").value) < 10) {
+                document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 1].id = "" + parseInt(m.getMonth() + 1) + "0" + document.querySelector("#Day").value;
+            } else {
+                document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 1].id = "" + parseInt(m.getMonth() + 1) + document.querySelector("#Day").value;
+            }
+
+        } else {
+            document.querySelector("#heart").innerHTML += "<br><img src = 'line.png' style='margin:3px;'><br> <div style='background: white; padding: 3px; margin: 10px; width: 80%; border-radius: 3px; padding-bottom: 1px;'> <p class='tt' style='font-size: 25px; margin:7px;margin-left:20px; text-align: left;'>" + document.querySelector("input").value + "</p> <br> <p style='font-size: 17px ; margin-top:-10px;'>" + document.querySelector("#Day").value + " " + months[parseInt(document.querySelector("#Month").value) - 1] + "</p></div>";
+
+            if (parseInt(document.querySelector("#Day").value) < 10) {
+                document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 1].id = "" + document.querySelector("#Month").value + "0" + document.querySelector("#Day").value;
+            } else {
+                document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 1].id = "" + document.querySelector("#Month").value + document.querySelector("#Day").value;
+            }
+        }
+        if (document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 1].id == document.querySelectorAll("p.tt")[document.querySelectorAll("p.tt").length - 2].id) {
+            State[State.length - 1] = parseInt(State[State.length - 1]) + 1;
+        } else {
+            State.push(1);
+        }
+
+        localStorage.setItem("stat", State);
+
+        document.querySelector("#add").style.display = "none";
+        document.querySelector("input").value = "";
+        document.querySelectorAll("input")[1].value = "";
+        document.querySelectorAll("input")[2].value = "";
+        document.querySelector("#counter").textContent = document.querySelectorAll("p.tt").length - 1 + " appreciations";
+        localStorage.setItem("content", document.querySelector("#heart").innerHTML);
+
+        if (document.querySelector("#TypeOf").value == "feeling") {
+            Fs += 1;
+            localStorage.setItem("feelings", Fs);
+        } else if (document.querySelector("#TypeOf").value == "person") {
+            Ps += 1;
+            localStorage.setItem("people", Ps);
+        } else if (document.querySelector("#TypeOf").value == "situation") {
+            Ss += 1;
+            localStorage.setItem("situations", Ss);
+        } else if (document.querySelector("#TypeOf").value == "event") {
+            Es += 1;
+            localStorage.setItem("events", Es);
+        }
+        
+        StateButton = document.querySelector("#StatA");
+        document.querySelector("#StatA").addEventListener("click",Fade);
+    });
+
+    if (localStorage.getItem("content") == "NaN" || localStorage.getItem("content") == NaN || localStorage.getItem("content") == null) {} else {
+        document.querySelector("#heart").innerHTML = localStorage.getItem("content");
+    }
+
+    if (localStorage.getItem("stat") == "NaN" || localStorage.getItem("stat") == NaN || localStorage.getItem("stat") == null) {} else {
+        State = localStorage.getItem("stat").split(",");
+    }
+    document.querySelector("#StatA").addEventListener("click", Fade);
+    document.querySelector("#back").addEventListener("click", FadeIn);
+</script>
+
+</html>
